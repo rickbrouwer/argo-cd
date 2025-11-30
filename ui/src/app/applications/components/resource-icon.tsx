@@ -10,17 +10,19 @@ export const ResourceIcon = ({group, kind, customStyle}: {group: string; kind: s
     if (kind === 'Application') {
         return <i title={kind} className={`icon argo-icon-application`} style={customStyle} />;
     }
-    if (!group) {
-        const i = resourceIcons.get(kind);
-        if (i !== undefined) {
-            return <img src={'assets/images/resources/' + i + '.svg'} alt={kind} style={{padding: '2px', width: '40px', height: '32px', ...customStyle}} />;
-        }
-    } else {
+
+    const i = resourceIcons.get(kind);
+    if (i !== undefined) {
+        return <img src={'assets/images/resources/' + i + '.svg'} alt={kind} style={{padding: '2px', width: '40px', height: '32px', ...customStyle}} />;
+    }
+
+    if (group) {
         const matchedGroup = matchGroupToResource(group);
         if (matchedGroup) {
             return <img src={`assets/images/resources/${matchedGroup}/icon.svg`} alt={kind} style={{paddingBottom: '2px', width: '40px', height: '32px', ...customStyle}} />;
         }
     }
+
     const initials = kind.replace(/[a-z]/g, '');
     const n = initials.length;
     const style: React.CSSProperties = {
