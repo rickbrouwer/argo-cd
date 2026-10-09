@@ -944,7 +944,7 @@ func (s *Server) ListResourceEvents(ctx context.Context, q *application.Applicat
 	if err != nil {
 		return nil, fmt.Errorf("error listing resource events: %w", err)
 	}
-	return list.DeepCopy(), nil
+	return argo.FillEventOccurrence(list.DeepCopy()), nil
 }
 
 // validateAndUpdateApp validates and updates the application. currentProject is the name of the project the app

@@ -658,5 +658,5 @@ func (s *Server) ListResourceEvents(ctx context.Context, q *applicationset.Appli
 	if err != nil {
 		return nil, fmt.Errorf("error listing resource events: %w", err)
 	}
-	return list.DeepCopy(), nil
+	return argo.FillEventOccurrence(list.DeepCopy()), nil
 }

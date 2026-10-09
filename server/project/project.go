@@ -504,7 +504,11 @@ func (s *Server) ListEvents(ctx context.Context, q *project.ProjectQuery) (*core
 		"involvedObject.uid":       string(proj.UID),
 		"involvedObject.namespace": proj.Namespace,
 	}).String()
-	return s.kubeclientset.CoreV1().Events(s.ns).List(ctx, metav1.ListOptions{FieldSelector: fieldSelector})
+	list, err := s.kubeclientset.CoreV1().Events(s.ns).List(ctx, metav1.ListOptions{FieldSelector: fieldSelector})
+	if err != nil {
+		return nil, err
+	}
+	return argo.FillEventOccurrence(list), nil
 }
 
 func (s *Server) logEvent(ctx context.Context, a *v1alpha1.AppProject, reason string, action string) {
